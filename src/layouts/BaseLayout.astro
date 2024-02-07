@@ -1,16 +1,20 @@
 ---
+import { ViewTransitions } from 'astro:transitions'
 const { title = 'Default site name' } = Astro.props
 ---
 
-<html lang="en">
+<html lang="en" class="h-full w-full">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
-  <body>
+  <body
+    class="bg-background text-foreground flex flex-grow h-full w-full selection:bg-primary selection:text-background"
+  >
     <slot />
   </body>
 </html>

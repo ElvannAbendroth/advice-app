@@ -26,3 +26,4 @@ Your users should be able to:
 -See hover states for all interactive elements on the page
 -Generate a new piece of advice by clicking the dice icon
 -Download the project and go through the README.md file. This will provide further details about the project and help you get set up.
+- Add micro-interactions
