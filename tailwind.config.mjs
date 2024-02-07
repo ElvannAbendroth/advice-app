@@ -16,9 +16,17 @@ export default {
         card: '#313A49',
         primary: { DEFAULT: '#56FDAA', hover: '#87FFC3' },
       },
-
       fontFamily: {
         sans: ['Satoshi', ...defaultTheme.fontFamily.sans],
+      },
+      keyframes: {
+        'spin-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
+      animation: {
+        'spin-slow': 'spin-slow 3s linear infinite', // Adjust the duration as needed
       },
     },
   },
