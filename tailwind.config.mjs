@@ -11,6 +11,7 @@ export default {
     },
     extend: {
       colors: {
+        transparent: 'transparent',
         background: '#202632',
         foreground: '#D1DFEA',
         card: '#313A49',

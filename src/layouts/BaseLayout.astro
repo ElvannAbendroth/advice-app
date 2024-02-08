@@ -1,4 +1,5 @@
 ---
+import Navbar from '@/components/Navbar'
 import { ViewTransitions } from 'astro:transitions'
 const { title = 'Default site name', description } = Astro.props
 ---
@@ -13,8 +14,11 @@ const { title = 'Default site name', description } = Astro.props
     <ViewTransitions />
   </head>
   <body
-    class="bg-background text-foreground flex flex-grow h-full w-full selection:bg-primary selection:text-background"
+    class="bg-background text-foreground flex flex-col flex-grow h-full w-full selection:bg-primary selection:text-background"
   >
-    <slot />
+    <Navbar />
+    <main class="flex flex-col justify-center items-center min-h-full flex-grow p-4">
+      <slot />
+    </main>
   </body>
 </html>

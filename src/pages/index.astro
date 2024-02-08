@@ -1,15 +1,52 @@
 ---
-import AdviceCard from '@/components/AdviceCard'
+import Card from '@/components/Card'
 import Icon from '@/components/ui/Icon'
+import Separator from '@/components/ui/Separator'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-
-const response = await fetch(`https://api.adviceslip.com/advice`)
-const { slip } = await response.json()
-console.log(slip.advice)
 ---
 
-<BaseLayout title="Ask for Advice!" description={`${slip.id}`}>
-  <main class="flex flex-col justify-center items-center h-full flex-grow p-4">
-    <AdviceCard client:load entry={slip} />
-  </main>
+<BaseLayout title="Home" description={'fun'}>
+  <Card className="">
+    <div
+      class="bg-primary text-background w-20 h-20 rounded-full shadow-xl shadow-black/10 relative flex justify-center items-center m-auto"
+    >
+      <Icon className="h-12 w-12" name="Gamepad" size="48" />
+    </div>
+    <p class="text-2xl font-bold">Playful App</p>
+    <p class="text-primary uppercase font-medium text-xs tracking-[0.2em]">Welcome!</p>
+    <p class="text-base font-regular">
+      A collection of micro-apps with the purpose of learning Astro & testing front-end interactions.
+    </p>
+    <Separator />
+
+    <div id="appp-list" class="flex flex-col py-4">
+      <a
+        href="/advice"
+        class="bg-foreground/10 rounded-mg py-3 hover:bg-foreground/15 transition-all text-lg font-medium"
+      >
+        Random Advice
+      </a>
+    </div>
+    <p class="text-sm font-regular text-foreground/50">
+      This app was created by <a
+        href="http://www.oodri.dev"
+        target="_blank"
+        class="text-foreground/70 underline hover:text-primary/80"
+      >
+        Oodri
+      </a> using <a
+        href="https://astro.build/"
+        target="_blank"
+        class="text-foreground/70 underline hover:text-primary/80"
+      >
+        Astro
+      </a>. Checkout the project on using <a
+        href="https://github.com/ElvannAbendroth/advice-app"
+        target="_blank"
+        class="text-foreground/70 underline hover:text-primary/80"
+      >
+        GitHub
+      </a>.
+    </p>
+  </Card>
 </BaseLayout>

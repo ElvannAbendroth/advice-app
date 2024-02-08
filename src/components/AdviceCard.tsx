@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Icon from '@/components/ui/Icon'
 import Separator from '@/components/ui/Separator'
 import { AnimatePresence, motion } from 'framer-motion'
+import Card from './Card'
 
 type Advice = { id: number; advice: string }
 
@@ -64,43 +65,43 @@ export const AdviceCard: React.FC<AdviceCardProps> = ({ entry }) => {
           opacity: { ease: 'linear', opacity: 1 },
           layout: { duration: 0.3 },
         }}
-        className="bg-card flex flex-col justify-center gap-4 text-center pt-8 pb-10 px-6  max-w-[42ch] sm:w-[42ch] rounded-lg shadow-xl shadow-black/10 relative mb-4 min-h-[200px]"
       >
-        <motion.div className=" flex flex-col justify-start items-center gap-6 mb-4">
-          {isLoading ? null : (
-            <>
-              <p className="text-primary uppercase font-medium text-xs tracking-[0.2em] ">Advice #{slip.id + 1}</p>
-              <p className="text-2xl font-bold">"{slip.advice}"</p>
-            </>
-          )}
-        </motion.div>
-        <Separator />
-        <div className="absolute bottom-0 left-[50%] -translate-x-[50%] translate-y-[50%]">
-          <motion.button
-            initial={{ scale: 1, rotate: 0 }}
-            whileHover={{
-              scale: 1.2,
-
-              transition: {
-                duration: 0.1,
-              },
-            }}
-            whileTap={{
-              scale: 0.75,
-              transition: {
-                duration: 0.2,
-              },
-            }}
-            onClick={handleRandomize}
-            className="bg-primary text-background rounded-full p-2 hover:bg-primary-hover transition-all flex justify-center items-center "
-          >
-            {isLoading ? (
-              <Icon className="h-8 w-8 animate-spin-slow duration-1000 " name="Loader" size="48" />
-            ) : (
-              <Icon className="h-6 w-6" name="Dice5" size="48" />
+        <Card>
+          <motion.div className="flex flex-col justify-start items-center gap-6 mb-4">
+            {isLoading ? null : (
+              <>
+                <p className="text-primary uppercase font-medium text-xs tracking-[0.2em] ">Advice #{slip.id + 1}</p>
+                <p className="text-2xl font-bold">"{slip.advice}"</p>
+              </>
             )}
-          </motion.button>
-        </div>
+          </motion.div>
+          <Separator />
+          <div className="absolute bottom-0 left-[50%] -translate-x-[50%] translate-y-[50%]">
+            <motion.button
+              initial={{ scale: 1, rotate: 0 }}
+              whileHover={{
+                scale: 1.1,
+                transition: {
+                  duration: 0.1,
+                },
+              }}
+              whileTap={{
+                scale: 0.9,
+                transition: {
+                  duration: 0.2,
+                },
+              }}
+              onClick={handleRandomize}
+              className="bg-primary text-background rounded-full p-2 hover:bg-primary-hover transition-all flex justify-center items-center "
+            >
+              {isLoading ? (
+                <Icon className="h-8 w-8 animate-spin duration-1000 " name="Dice5" size="48" />
+              ) : (
+                <Icon className="h-6 w-6" name="Dice5" size="48" />
+              )}
+            </motion.button>
+          </div>
+        </Card>
       </motion.div>
     </AnimatePresence>
   )
