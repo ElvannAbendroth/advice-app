@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Icon from '@/components/ui/Icon'
 import Separator from '@/components/ui/Separator'
 import { AnimatePresence, motion } from 'framer-motion'
 import Card from './Card'
+import { useGlobalAudioPlayer } from 'react-use-audio-player'
 
 type Advice = { id: number; advice: string }
 
@@ -38,8 +39,23 @@ const getAdvice = async (previousSlipId?: number) => {
 export const AdviceCard: React.FC<AdviceCardProps> = ({ entry }) => {
   const [slip, setSlip] = useState(entry)
   const [isLoading, setIsLoading] = useState(false)
+  const player = useGlobalAudioPlayer()
+
+  const initPlayer = () => {
+    player.load('/public/dice_roll.mp3', {
+      autoplay: false,
+    })
+    player.setVolume(0.3)
+  }
+
+  useEffect(() => {}, [])
 
   const handleRandomize = async () => {
+    player.load('/dice_roll.mp3', {
+      autoplay: true,
+      initialVolume: 0.2,
+    })
+
     setIsLoading(true)
 
     try {
