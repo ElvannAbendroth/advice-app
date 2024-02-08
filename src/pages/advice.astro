@@ -7,6 +7,6 @@ const { slip } = await response.json()
 console.log(slip.advice)
 ---
 
-<BaseLayout title="Ask for Advice!" description={`${slip.id}`}>
+<BaseLayout title="Playful" description={`Advice #${slip.id}`}>
   <AdviceCard client:load entry={slip} />
 </BaseLayout>
