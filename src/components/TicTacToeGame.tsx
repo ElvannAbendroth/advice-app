@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Grid3x3 from '@/components/Grid3x3'
 import { useGlobalAudioPlayer } from 'react-use-audio-player'
+import { motion } from 'framer-motion'
 
 export type Cell = {
   cellNumber: number
@@ -128,26 +129,56 @@ export const TicTacToeGame: React.FC<{}> = () => {
     <div id="wrapper" className="w-full max-w-[32rem] grid grid-cols-1 gap-8">
       <div id="toolBar" className="flex gap-4 items-center flex-wrap">
         <div id="button-group" className="flex flex-nowrap">
-          <button
+          <motion.button
+            initial={{ scale: 1, rotate: 0 }}
+            whileTap={{
+              scale: 0.9,
+              transition: {
+                duration: 0.2,
+              },
+            }}
             className={`py-2 px-4 rounded-bl-md rounded-tl-md ${
               turn === 'X' ? `bg-primary hover:bg-primary-hover text-background` : `bg-card hover:bg-foreground/20`
             } shadow-lg`}
             onClick={() => handleSwitchTurn('X')}
           >
             X
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            initial={{ scale: 1, rotate: 0 }}
+            whileTap={{
+              scale: 0.9,
+              transition: {
+                duration: 0.2,
+              },
+            }}
             className={`py-2 px-4 rounded-br-md rounded-tr-md ${
               turn === 'O' ? `bg-secondary hover:bg-secondary-hover text-background` : `bg-card hover:bg-foreground/20`
             } shadow-lg`}
             onClick={() => handleSwitchTurn('O')}
           >
             O
-          </button>
+          </motion.button>
         </div>
-        <button className="py-2 px-4 bg-card hover:bg-foreground/20 rounded-md" onClick={() => resetBoard()}>
+        <motion.button
+          initial={{ scale: 1, rotate: 0 }}
+          whileHover={{
+            scale: 1.05,
+            transition: {
+              duration: 0.1,
+            },
+          }}
+          whileTap={{
+            scale: 0.95,
+            transition: {
+              duration: 0.2,
+            },
+          }}
+          className="py-2 px-4 bg-card hover:bg-foreground/20 rounded-md"
+          onClick={() => resetBoard()}
+        >
           Reset Game
-        </button>
+        </motion.button>
         {winner && winner !== 'Null' && <p className="text-lg font-semibold">Congratulations, {winner} won!</p>}
         {winner === 'Null' && <p className="text-lg font-semibold">Null Game!</p>}
       </div>

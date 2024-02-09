@@ -4,6 +4,7 @@ import Separator from '@/components/ui/Separator'
 import { AnimatePresence, motion } from 'framer-motion'
 import Card from './Card'
 import { useGlobalAudioPlayer } from 'react-use-audio-player'
+import { Skeleton } from './ui/Skeleton'
 
 type Advice = { id: number; advice: string }
 
@@ -75,7 +76,13 @@ export const AdviceCard: React.FC<AdviceCardProps> = ({ entry }) => {
       >
         <Card>
           <motion.div className="flex flex-col justify-start items-center gap-6 mb-4">
-            {isLoading ? null : (
+            {isLoading ? (
+              <>
+                <Skeleton className="w-full sm:w-[20%] h-4 rounded-full" />
+                <Skeleton className="w-full h-4 rounded-full" />
+                <Skeleton className="w-full sm:w-[50%] h-4 rounded-full" />
+              </>
+            ) : (
               <>
                 <p className="text-primary uppercase font-medium text-xs tracking-[0.2em] ">Advice #{slip.id + 1}</p>
                 <p className="text-2xl font-bold">"{slip.advice}"</p>
