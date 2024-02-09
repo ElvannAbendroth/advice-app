@@ -16,9 +16,11 @@ export default {
         foreground: '#D1DFEA',
         card: '#313A49',
         primary: { DEFAULT: '#56FDAA', hover: '#87FFC3' },
+        secondary: { DEFAULT: '#fdb256', hover: '#ffc885' },
       },
       fontFamily: {
         sans: ['Satoshi', ...defaultTheme.fontFamily.sans],
+        play: ['Varela Round', 'Comic Sans MS', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
         'spin-slow': {

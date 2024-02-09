@@ -3,6 +3,7 @@ import Icon from '@/components/ui/Icon'
 const navItems = [
   { label: 'home', href: '/' },
   { label: 'advice', href: '/advice' },
+  { label: 'Tic Tac Toe', href: '/tictactoe' },
 ]
 
 export const Navbar: React.FC<{}> = () => {
@@ -18,6 +19,7 @@ export const Navbar: React.FC<{}> = () => {
         <div className="flex items-center gap-6">
           {navItems.map(item => (
             <a
+              key={item.label}
               href={item.href}
               className="uppercase font-medium text-xs tracking-[0.2em] hover:text-primary transition-all hover:underline underline-offset-4 decoration-2"
             >

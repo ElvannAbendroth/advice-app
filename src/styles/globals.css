@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 @import './satoshi';
+/* @import url('https://fonts.googleapis.com/css2?family=Cute+Font&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap'); */
 
 @layer components {
-  .shadow-style-1 {
-    @apply shadow-xl shadow-primary/10;
-  }
 }
