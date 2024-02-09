@@ -1,8 +1,7 @@
 import type { Cell } from '@/components/TicTacToeGame'
-import Icon from './ui/Icon'
 import { AnimatePresence, motion } from 'framer-motion'
 
-type Grid3x3Props = {
+type TicTactToeGridProps = {
   handleTurn: (index: number) => void
   resetBoard: () => void
   cells: Cell[]
@@ -10,7 +9,7 @@ type Grid3x3Props = {
   winner: 'X' | 'O' | 'Null' | null
 }
 
-export const Grid3x3 = ({ handleTurn, cells, resetBoard, winner, turn }: Grid3x3Props) => {
+export const TicTactToeGrid = ({ handleTurn, cells, resetBoard, winner, turn }: TicTactToeGridProps) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -64,4 +63,4 @@ export const Grid3x3 = ({ handleTurn, cells, resetBoard, winner, turn }: Grid3x3
   )
 }
 
-export default Grid3x3
+export default TicTactToeGrid

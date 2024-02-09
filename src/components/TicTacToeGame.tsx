@@ -1,27 +1,20 @@
 import { useState } from 'react'
-import Grid3x3 from '@/components/Grid3x3'
+import TicTactToeGrid from '@/components/TicTacToeGrid'
 import { useGlobalAudioPlayer } from 'react-use-audio-player'
 import { motion } from 'framer-motion'
-
-export type Cell = {
-  cellNumber: number
-  state: null | 'X' | 'O'
-}
-
-export type Winner = null | 'X' | 'O' | 'Null'
-export type Player = 'X' | 'O'
+import type { Cell, Player, Winner } from '@/lib/types'
 
 export const TicTacToeGame: React.FC<{}> = () => {
   const initialCells: Cell[] = [
-    { cellNumber: 1, state: null },
-    { cellNumber: 2, state: null },
-    { cellNumber: 3, state: null },
-    { cellNumber: 4, state: null },
-    { cellNumber: 5, state: null },
-    { cellNumber: 6, state: null },
-    { cellNumber: 7, state: null },
-    { cellNumber: 8, state: null },
-    { cellNumber: 9, state: null },
+    { state: null },
+    { state: null },
+    { state: null },
+    { state: null },
+    { state: null },
+    { state: null },
+    { state: null },
+    { state: null },
+    { state: null },
   ]
 
   const [cells, setCells] = useState(initialCells)
@@ -182,7 +175,7 @@ export const TicTacToeGame: React.FC<{}> = () => {
         {winner && winner !== 'Null' && <p className="text-lg font-semibold">Congratulations, {winner} won!</p>}
         {winner === 'Null' && <p className="text-lg font-semibold">Null Game!</p>}
       </div>
-      <Grid3x3 cells={cells} handleTurn={handleTurn} turn={turn} resetBoard={resetBoard} winner={winner} />
+      <TicTactToeGrid cells={cells} handleTurn={handleTurn} turn={turn} resetBoard={resetBoard} winner={winner} />
     </div>
   )
 }

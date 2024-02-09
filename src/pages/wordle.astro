@@ -1,0 +1,12 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import WordleGame from '@/components/WordleGame'
+
+// const response = await fetch(`https://api.adviceslip.com/advice`)
+// const { slip } = await response.json()
+// console.log(slip.advice)
+---
+
+<BaseLayout title="Playful" description={`Wordle!`}>
+  <WordleGame client:load />
+</BaseLayout>

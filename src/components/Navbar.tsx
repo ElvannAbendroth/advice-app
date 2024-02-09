@@ -4,6 +4,7 @@ const navItems = [
   { label: 'home', href: '/' },
   { label: 'advice', href: '/advice' },
   { label: 'Tic Tac Toe', href: '/tictactoe' },
+  { label: 'Wordle', href: '/wordle' },
 ]
 
 export const Navbar: React.FC<{}> = () => {
