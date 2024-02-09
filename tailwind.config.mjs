@@ -27,9 +27,20 @@ export default {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        'bounce-sm': {
+          '0%, 100%': { transform: 'translateY(-5%)' },
+          '50%': { transform: 'none' },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
       },
+
       animation: {
-        'spin-slow': 'spin-slow 3s linear infinite', // Adjust the duration as needed
+        'spin-slow': 'spin-slow 3s linear infinite',
+        'bounce-sm': 'bounce-sm 2s ease-in-out infinite',
+        wiggle: 'wiggle 0.6s ease-in-out infinite',
       },
     },
   },

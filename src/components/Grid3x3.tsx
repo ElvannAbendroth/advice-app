@@ -1,13 +1,15 @@
 import type { Cell } from '@/components/TicTacToeGame'
+import Icon from './ui/Icon'
 
 type Grid3x3Props = {
   handleTurn: (index: number) => void
   resetBoard: () => void
   cells: Cell[]
   turn: 'X' | 'O'
+  winner: 'X' | 'O' | 'Null' | null
 }
 
-export const Grid3x3 = ({ handleTurn, cells, resetBoard, turn }: Grid3x3Props) => {
+export const Grid3x3 = ({ handleTurn, cells, resetBoard, winner, turn }: Grid3x3Props) => {
   return (
     <div className="grid grid-cols-3 gap-0 select-none">
       {cells.map((cell, index) => (
@@ -19,8 +21,12 @@ export const Grid3x3 = ({ handleTurn, cells, resetBoard, turn }: Grid3x3Props) =
           onClick={() => handleTurn(index)}
         >
           {cell.state === null && (
-            <div className=" flex justify-center items-center w-full h-full aspect-w-1 aspect-square hover:bg-card cursor-pointer rounded-md text-5xl sm:text-9xl text-foreground/0 hover:text-transparent/20">
-              <div>{turn === 'X' ? 'X' : 'O'}</div>
+            <div
+              className={`flex justify-center items-center w-full h-full aspect-w-1 aspect-square rounded-md text-5xl sm:text-9xl text-foreground/0  transition-all ${
+                winner === null && 'cursor-pointer hover:text-transparent/20 hover:bg-card'
+              }`}
+            >
+              <div className="animate-bounce-sm ease-in-out">{turn === 'X' ? 'X' : 'O'}</div>
             </div>
           )}
           {cell.state === 'X' && (

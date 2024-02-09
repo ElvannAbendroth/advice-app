@@ -25,6 +25,10 @@ export const TicTacToeGame: React.FC<{}> = () => {
   const [winner, setWinner] = useState<null | 'X' | 'O' | 'Null'>(null)
 
   const handleTurn = (index: number) => {
+    if (winner) {
+      resetBoard()
+      return
+    }
     const updatedCells = cells
     if (updatedCells[index].state != null) return
     if (turn === 'X') {
@@ -57,7 +61,7 @@ export const TicTacToeGame: React.FC<{}> = () => {
         setWinner(left)
       }
 
-      if (cells.filter(cell => cell.state === null)) setWinner('Null')
+      if (cells.filter(cell => cell.state === null).length === 0) setWinner('Null')
     }
 
     //Check cols
@@ -114,7 +118,7 @@ export const TicTacToeGame: React.FC<{}> = () => {
         {winner && winner !== 'Null' && <p className="text-lg font-semibold">Congratulations, {winner} won!</p>}
         {winner === 'Null' && <p className="text-lg font-semibold">Null Game!</p>}
       </div>
-      <Grid3x3 cells={cells} handleTurn={handleTurn} turn={turn} resetBoard={resetBoard} />
+      <Grid3x3 cells={cells} handleTurn={handleTurn} turn={turn} resetBoard={resetBoard} winner={winner} />
     </div>
   )
 }
