@@ -41,17 +41,8 @@ export const AdviceCard: React.FC<AdviceCardProps> = ({ entry }) => {
   const [isLoading, setIsLoading] = useState(false)
   const player = useGlobalAudioPlayer()
 
-  const initPlayer = () => {
-    player.load('/public/dice_roll.mp3', {
-      autoplay: false,
-    })
-    player.setVolume(0.3)
-  }
-
-  useEffect(() => {}, [])
-
   const handleRandomize = async () => {
-    player.load('/dice_roll.mp3', {
+    player.load('/sounds/dice.wav', {
       autoplay: true,
       initialVolume: 0.2,
     })

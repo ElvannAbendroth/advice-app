@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react'
-import Icon from '@/components/ui/Icon'
+import { useState } from 'react'
 import Grid3x3 from '@/components/Grid3x3'
+import { useGlobalAudioPlayer } from 'react-use-audio-player'
 
 export type Cell = {
   cellNumber: number
   state: null | 'X' | 'O'
 }
+
+export type Winner = null | 'X' | 'O' | 'Null'
+export type Player = 'X' | 'O'
 
 export const TicTacToeGame: React.FC<{}> = () => {
   const initialCells: Cell[] = [
@@ -21,21 +24,31 @@ export const TicTacToeGame: React.FC<{}> = () => {
   ]
 
   const [cells, setCells] = useState(initialCells)
-  const [turn, setTurn] = useState<'X' | 'O'>('X')
-  const [winner, setWinner] = useState<null | 'X' | 'O' | 'Null'>(null)
+  const [turn, setTurn] = useState<Player>('X')
+  const [winner, setWinner] = useState<Winner>(null)
+  const player = useGlobalAudioPlayer()
 
   const handleTurn = (index: number) => {
     if (winner) {
       resetBoard()
       return
     }
+
     const updatedCells = cells
     if (updatedCells[index].state != null) return
     if (turn === 'X') {
+      player.load(`/sounds/marker-1.wav`, {
+        autoplay: true,
+        initialVolume: 0.1,
+      })
       updatedCells[index].state = 'X'
       setTurn('O')
     }
     if (turn === 'O') {
+      player.load(`/sounds/marker-2.wav`, {
+        autoplay: true,
+        initialVolume: 0.1,
+      })
       updatedCells[index].state = 'O'
       setTurn('X')
     }
@@ -45,12 +58,17 @@ export const TicTacToeGame: React.FC<{}> = () => {
   }
 
   const resetBoard = () => {
+    player.load('/sounds/erase-3.wav', {
+      autoplay: true,
+      initialVolume: 0.3,
+    })
     setCells(initialCells)
     setTurn('X')
     setWinner(null)
   }
 
   const checkWinner = () => {
+    let winner = null
     //Checks rows
     for (let index = 0; index < cells.length; index += 3) {
       const left = cells[index].state
@@ -58,7 +76,7 @@ export const TicTacToeGame: React.FC<{}> = () => {
       const right = cells[index + 2].state
 
       if (left != null && left === middle && middle === right) {
-        setWinner(left)
+        winner = left
       }
 
       if (cells.filter(cell => cell.state === null).length === 0) setWinner('Null')
@@ -71,24 +89,39 @@ export const TicTacToeGame: React.FC<{}> = () => {
       const bottom = cells[index + 6].state
 
       if (top != null && top === center && center === bottom) {
-        setWinner(top)
+        winner = top
       }
     }
 
-    //Check cross #1
+    //Check cross
     const topLeft = cells[0].state
     const centerMiddle = cells[4].state
     const bottomRight = cells[8].state
-    if (topLeft != null && topLeft === centerMiddle && centerMiddle === bottomRight) {
-      setWinner(topLeft)
-    }
-
-    // Check cross #2
     const topRight = cells[2].state
     const bottomLeft = cells[6].state
-    if (topRight != null && topRight === centerMiddle && centerMiddle === bottomLeft) {
-      setWinner(topRight)
+
+    if (topLeft != null && topLeft === centerMiddle && centerMiddle === bottomRight) {
+      winner = topLeft
     }
+
+    if (topRight != null && topRight === centerMiddle && centerMiddle === bottomLeft) {
+      winner = topRight
+    }
+    if (winner != null) {
+      setWinner(winner)
+      player.load('/sounds/click.wav', {
+        autoplay: true,
+        initialVolume: 0.2,
+      })
+    }
+  }
+
+  const handleSwitchTurn = (newTurn: Player) => {
+    player.load('/sounds/button-1.wav', {
+      autoplay: true,
+      initialVolume: 0.5,
+    })
+    setTurn(newTurn)
   }
 
   return (
@@ -99,7 +132,7 @@ export const TicTacToeGame: React.FC<{}> = () => {
             className={`py-2 px-4 rounded-bl-md rounded-tl-md ${
               turn === 'X' ? `bg-primary hover:bg-primary-hover text-background` : `bg-card hover:bg-foreground/20`
             } shadow-lg`}
-            onClick={() => setTurn('X')}
+            onClick={() => handleSwitchTurn('X')}
           >
             X
           </button>
@@ -107,7 +140,7 @@ export const TicTacToeGame: React.FC<{}> = () => {
             className={`py-2 px-4 rounded-br-md rounded-tr-md ${
               turn === 'O' ? `bg-secondary hover:bg-secondary-hover text-background` : `bg-card hover:bg-foreground/20`
             } shadow-lg`}
-            onClick={() => setTurn('O')}
+            onClick={() => handleSwitchTurn('O')}
           >
             O
           </button>

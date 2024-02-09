@@ -28,8 +28,8 @@ export default {
           '100%': { transform: 'rotate(360deg)' },
         },
         'bounce-sm': {
-          '0%, 100%': { transform: 'translateY(-5%)' },
-          '50%': { transform: 'none' },
+          '0%, 100%': { transform: 'translateY(-2%)' },
+          '50%': { transform: 'translateY(2%)' },
         },
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
