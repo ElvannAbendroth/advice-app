@@ -22,7 +22,7 @@ export const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, attemptedLetters
             {row.map(key => (
               <button
                 key={key}
-                className={`p-2 sm:p-3 rounded-md shadow-md ${
+                className={`p-3 rounded-md shadow-md ${
                   attemptedLetters.includes(key)
                     ? 'bg-card/40 hover:bg-card/70 text-foreground/70'
                     : 'bg-card hover:bg-foreground/20'
