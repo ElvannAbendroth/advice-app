@@ -4,3 +4,5 @@ export type Cell = {
 
 export type Winner = null | 'X' | 'O' | 'Null'
 export type Player = 'X' | 'O'
+
+export type GridCell = string | null

@@ -6,48 +6,52 @@ import { getRandomItem } from '@/lib/utils'
 const COLUMNS = 5
 const ROWS = 6
 const FIVE_LETTER_WORDS = ['mango', 'apple', 'grape', 'lemon', 'peach', 'olive', 'guava', 'melon', 'papaya']
-
-export type CellData = string | null
-const word = getRandomItem(FIVE_LETTER_WORDS).toUpperCase()
-console.log(word)
+const RANDOM_WORD = getRandomItem(FIVE_LETTER_WORDS).toUpperCase()
+console.log(RANDOM_WORD)
 
 const WordleGame = () => {
   const initialGridData: any = Array.from({ length: ROWS }, () => Array.from({ length: COLUMNS }, () => null))
 
-  const [cells, setCells] = useState(initialGridData)
+  const [grid, setGrid] = useState(initialGridData)
   const [colPointer, setColPointer] = useState<number>(0)
   const [rowPointer, setRowPointer] = useState<number>(0)
   const [attemptedLetters, setAttemptedLetters] = useState<string[]>([])
+  const [word, setWord] = useState('GUAVA')
+  console.log(word)
 
   const handleEnter = () => {
+    //makes sure the pointers stay withing the grid
     if (rowPointer === ROWS || colPointer === COLUMNS + 1) return
-
-    const newAttemptedLetters = [...new Set(cells[rowPointer])] as string[]
-    setAttemptedLetters(newAttemptedLetters)
-
     setRowPointer(rowPointer + (colPointer === COLUMNS ? 1 : 0))
     setColPointer(colPointer === COLUMNS ? 0 : colPointer)
+
+    const newAttemptedLetters = [...new Set(grid[rowPointer])] as string[]
+    setAttemptedLetters(newAttemptedLetters)
+
+    //check if answer is correct here
   }
 
   const handleBack = () => {
+    //makes sure the pointers stay withing the grid
     if (colPointer === COLUMNS + 1) return
-
-    const newColPointer = Math.max(0, colPointer - 1)
-    const updatedCells = [...cells]
-    updatedCells[rowPointer][newColPointer] = null
-
+    const newColPointer = colPointer < 0 ? colPointer - 1 : 0
     setColPointer(newColPointer)
-    setCells(updatedCells)
+
+    const updatedGrid = [...grid]
+    updatedGrid[rowPointer][newColPointer] = null
+    setGrid(updatedGrid)
   }
 
-  const handleDefault = (key: string) => {
+  const handleDefaultKeyPress = (key: string) => {
+    //makes sure the pointers stay withing the grid
     if (colPointer === COLUMNS || key === ' ') return
+    const oldColPointer = colPointer
+    const newColPointer = colPointer + 1
+    setColPointer(newColPointer)
 
-    const updatedCells = [...cells]
-    updatedCells[rowPointer][colPointer] = key.toUpperCase()
-
-    setCells(updatedCells)
-    setColPointer(colPointer + 1)
+    const updatedGrid = [...grid]
+    updatedGrid[rowPointer][oldColPointer] = key.toUpperCase()
+    setGrid(updatedGrid)
   }
 
   const onKeyPress = (key: string) => {
@@ -61,14 +65,14 @@ const WordleGame = () => {
         break
 
       default:
-        handleDefault(key)
+        handleDefaultKeyPress(key)
         break
     }
   }
 
   return (
     <div className=" w-full pt-12">
-      <WordleGrid cells={cells} rowPointer={rowPointer} word={word} />
+      <WordleGrid grid={grid} rowPointer={rowPointer} word={word} />
       <Keyboard onKeyPress={key => onKeyPress(key)} attemptedLetters={attemptedLetters} />
     </div>
   )
