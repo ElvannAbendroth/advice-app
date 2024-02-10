@@ -5,7 +5,7 @@ import { getRandomItem } from '@/lib/utils'
 
 const COLUMNS = 5
 const ROWS = 6
-const FIVE_LETTER_WORDS = ['mango', 'apple', 'grape', 'lemon', 'kiwi', 'peach', 'olive', 'guava', 'melon', 'papaya']
+const FIVE_LETTER_WORDS = ['mango', 'apple', 'grape', 'lemon', 'peach', 'olive', 'guava', 'melon', 'papaya']
 
 export type CellData = string | null
 const word = getRandomItem(FIVE_LETTER_WORDS).toUpperCase()

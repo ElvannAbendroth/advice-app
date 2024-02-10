@@ -1,4 +1,4 @@
-import type { Cell } from '@/components/TicTacToeGame'
+import type { Cell } from '@/lib/types'
 import { AnimatePresence, motion } from 'framer-motion'
 
 type TicTactToeGridProps = {
