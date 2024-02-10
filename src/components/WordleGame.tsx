@@ -71,7 +71,7 @@ const WordleGame = () => {
   }
 
   return (
-    <div className=" w-full pt-12">
+    <div className=" w-full">
       <WordleGrid grid={grid} rowPointer={rowPointer} word={word} />
       <Keyboard onKeyPress={key => onKeyPress(key)} attemptedLetters={attemptedLetters} />
     </div>

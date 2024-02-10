@@ -17,11 +17,12 @@ const { title = 'Default site name', description } = Astro.props
     <ViewTransitions />
   </head>
   <body
-    class="bg-background text-foreground flex flex-col flex-grow h-full w-full selection:bg-primary selection:text-background"
+    class="bg-background text-foreground flex flex-col min-h-[100vh] w-full selection:bg-primary selection:text-background"
   >
     <Navbar />
-    <main class="flex flex-col justify-center items-center min-h-full flex-grow p-4">
+    <main class="flex flex-col items-center min-h-full flex-grow p-4 justify-center">
       <slot />
     </main>
+    <footer>hey there</footer>
   </body>
 </html>

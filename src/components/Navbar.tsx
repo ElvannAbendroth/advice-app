@@ -11,7 +11,7 @@ export const Navbar: React.FC<{}> = () => {
   //TODO: change nav item styling based on path
   //TODO: animation with a little bar that moves from element to element
   return (
-    <div className="fixed top-0 left-0 right-0">
+    <div className="block">
       <div className="flex justify-between  py-6 px-6 max-w-7xl m-auto flex-wrap gap-6">
         <a href="/" className="flex gap-2 items-center text-gradient-to-r hover:text-primary cursor-pointer">
           <Icon className="h-7 w-7" name="Gamepad" size="48" />
