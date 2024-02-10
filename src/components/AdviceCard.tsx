@@ -73,6 +73,7 @@ export const AdviceCard: React.FC<AdviceCardProps> = ({ entry }) => {
           opacity: { ease: 'linear', opacity: 1 },
           layout: { duration: 0.3 },
         }}
+        className="flex flex-col justify-center items-center w-full"
       >
         <Card>
           <motion.div className="flex flex-col justify-start items-center gap-6 mb-4">
