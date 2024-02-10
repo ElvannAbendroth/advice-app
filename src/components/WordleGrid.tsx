@@ -27,6 +27,11 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
               const isLetterInWord = isPreviousRow && typeof letter === 'string' && word.includes(letter)
               const isLetterAtSameIndexAsLetter =
                 isPreviousRow && typeof letter === 'string' && word.charAt(colIndex) === letter
+              const isLetterInWordTwice =
+                typeof letter === 'string' && word.toLowerCase().split(letter.toLowerCase()).length - 1 > 1
+              const isLetterInWordTwiceButWrongIndex = isLetterInWordTwice && word.charAt(colIndex) != letter
+
+              if (letter) console.log(letter, isLetterInWordTwice)
 
               return (
                 <div
@@ -35,6 +40,7 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
                     'relative flex items-center justify-center rounded-md p-1 sm:p-2 font-play border-2 border-card aspect-square text-2xl font-bold',
                     isPreviousRow && isLetterInWord && isLetterAtSameIndexAsLetter && 'bg-primary text-background',
                     isPreviousRow && isLetterInWord && !isLetterAtSameIndexAsLetter && 'bg-secondary text-background',
+                    isPreviousRow && isLetterInWord && isLetterInWordTwiceButWrongIndex && 'bg-accent text-background',
                     isCurrentRow && 'border-foreground/30'
                   )}
                 >

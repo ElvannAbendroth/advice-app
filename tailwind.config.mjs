@@ -17,6 +17,7 @@ export default {
         card: '#313A49',
         primary: { DEFAULT: '#56FDAA', hover: '#87FFC3' },
         secondary: { DEFAULT: '#fdb256', hover: '#ffc885' },
+        accent: { DEFAULT: '#fdfa56', hover: '#fffd8f' },
       },
       fontFamily: {
         sans: ['Satoshi', ...defaultTheme.fontFamily.sans],

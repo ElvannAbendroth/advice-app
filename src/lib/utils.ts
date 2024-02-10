@@ -13,3 +13,8 @@ export function getRandomItem(array: any[]) {
   const randomIndex = Math.floor(Math.random() * array.length)
   return array[randomIndex]
 }
+
+export function isCharacterRepeated(word: string, character: string): boolean {
+  const count = word.split(character).length - 1
+  return count > 1
+}
