@@ -12,8 +12,6 @@ interface WordleGridProps {
   word: string
 }
 
-// const memoizedCompare = memoize(compare)
-
 export const WordleGrid: React.FC<WordleGridProps> = ({ grid, word, pointer }) => {
   return (
     <AnimatePresence>

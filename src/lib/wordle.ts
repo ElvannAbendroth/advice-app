@@ -1,4 +1,4 @@
-import { COLUMNS, ROWS } from './config'
+import { COLUMNS } from './config'
 import { memoize } from './utils'
 
 export type Highlight = 'green' | 'yellow' | 'gray' | null
@@ -62,5 +62,5 @@ export const getNewWord = async () => {
 
   if (!wordExists) await getNewWord()
 
-  return words[0]
+  return words[0].capitalize()
 }
