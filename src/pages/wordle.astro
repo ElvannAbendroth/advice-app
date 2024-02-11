@@ -1,12 +1,15 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import WordleGame from '@/components/WordleGame'
+import { COLUMNS } from '@/lib/config'
+import { getNewWord } from '@/lib/wordle'
 
-// const response = await fetch(`https://api.adviceslip.com/advice`)
-// const { slip } = await response.json()
-// console.log(slip.advice)
+// const response = await fetch(`https://random-word-api.herokuapp.com/word?number=1&length=${COLUMNS}`)
+// const words = await response.json()
+
+const word = await getNewWord()
 ---
 
 <BaseLayout title="Playful" description={`Wordle!`}>
-  <WordleGame client:load />
+  <WordleGame wordFromAPI={word} client:load />
 </BaseLayout>

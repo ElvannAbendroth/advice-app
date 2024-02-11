@@ -2,23 +2,24 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { Keyboard } from './Keyboard'
 import { WordleGrid } from './WordleGrid'
-import { getRandomItem } from '@/lib/utils'
+import { COLUMNS, ROWS } from '@/lib/config'
+import { checkIfWordExists, getNewWord } from '@/lib/wordle'
 
-const COLUMNS = 5
-const ROWS = 6
-const FIVE_LETTER_WORDS = ['mango', 'apple', 'grape', 'lemon', 'peach', 'olive', 'guava', 'melon', 'papaya']
-const RANDOM_WORD = getRandomItem(FIVE_LETTER_WORDS).toUpperCase()
+interface WordleGameProps {
+  wordFromAPI: string
+}
 
-const WordleGame = () => {
+const WordleGame: React.FC<WordleGameProps> = ({ wordFromAPI }) => {
   const initialGridData: any = Array.from({ length: ROWS }, () => Array.from({ length: COLUMNS }, () => null))
 
   const [grid, setGrid] = useState(initialGridData)
   const [colPointer, setColPointer] = useState<number>(0)
-  const [rowPointer, setRowPointer] = useState<number>(0)
+  const [rowPointer, setRowPointer] = useState<number>(5)
   const [attemptedLetters, setAttemptedLetters] = useState<string[]>([])
-  const [word, setWord] = useState(RANDOM_WORD)
+  const [word, setWord] = useState(wordFromAPI.toUpperCase())
   const [win, setWin] = useState<'WON' | 'LOST' | null>(null)
-  // console.log('Word of the day:', word)
+  const [isShowAnswer, setIsShowAnswer] = useState(false)
+
   const layout = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
@@ -26,11 +27,17 @@ const WordleGame = () => {
     ['Back', 'Enter'],
   ]
 
-  const handleEnter = () => {
-    checkIfGuessCorrect()
+  const handleEnter = async () => {
     //makes sure the pointers stay withing the grid
-    if (rowPointer === ROWS || colPointer === COLUMNS + 1) return
-    setRowPointer(rowPointer + (colPointer === COLUMNS ? 1 : 0))
+    if (rowPointer === ROWS + 1 || colPointer === COLUMNS + 1) return
+
+    const isWord = await checkIfWordExists(grid[rowPointer].join(''))
+    if (!isWord) return
+    checkIfGuessCorrect()
+
+    //set pointer to next row
+    if (rowPointer < COLUMNS + 1) setRowPointer(rowPointer + 1)
+    // setRowPointer(rowPointer + (colPointer === COLUMNS ? 1 : 0))
     setColPointer(colPointer === COLUMNS ? 0 : colPointer)
 
     const newAttemptedLetters = [...new Set(grid[rowPointer])] as string[]
@@ -40,7 +47,8 @@ const WordleGame = () => {
   const handleBack = () => {
     //makes sure the pointers stay withing the grid
     if (colPointer === COLUMNS + 1) return
-    const newColPointer = colPointer < 0 ? colPointer - 1 : 0
+    const newColPointer = colPointer > 0 ? colPointer - 1 : 0
+
     setColPointer(newColPointer)
 
     const updatedGrid = [...grid]
@@ -60,11 +68,10 @@ const WordleGame = () => {
     setGrid(updatedGrid)
   }
 
-  const onKeyPress = (key: string) => {
-    console.log(key)
+  const onKeyPress = async (key: string) => {
     switch (key) {
       case 'Enter':
-        handleEnter()
+        await handleEnter()
         break
 
       case 'Back':
@@ -92,12 +99,14 @@ const WordleGame = () => {
     }
   }
 
-  const resetGame = () => {
+  const resetGame = async () => {
+    const newWord = await getNewWord()
+    setIsShowAnswer(false)
+    setWord(newWord)
     setWin(null)
     setGrid(initialGridData)
     setColPointer(0)
     setRowPointer(0)
-    setWord(RANDOM_WORD)
   }
 
   return (
@@ -107,25 +116,47 @@ const WordleGame = () => {
       <div className="flex flex-col gap-4 items-center">
         {win === 'WON' && <p className="text-lg font-semibold">You Won!!!</p>}
         {win === 'LOST' && <p className="text-lg font-semibold">You lost, the word was {word}</p>}
-        <motion.button
-          initial={{ scale: 1, rotate: 0 }}
-          whileHover={{
-            scale: 1.05,
-            transition: {
-              duration: 0.1,
-            },
-          }}
-          whileTap={{
-            scale: 0.95,
-            transition: {
-              duration: 0.2,
-            },
-          }}
-          className="py-2 px-4 bg-card hover:bg-foreground/20 rounded-md"
-          onClick={() => resetGame()}
-        >
-          Reset Game
-        </motion.button>
+        {isShowAnswer && <p className="text-lg font-semibold">Answer: {word}</p>}
+        <div className="flex gap-2">
+          <motion.button
+            initial={{ scale: 1, rotate: 0 }}
+            whileHover={{
+              scale: 1.05,
+              transition: {
+                duration: 0.1,
+              },
+            }}
+            whileTap={{
+              scale: 0.95,
+              transition: {
+                duration: 0.2,
+              },
+            }}
+            className="py-2 px-4 bg-card hover:bg-foreground/20 rounded-md"
+            onClick={() => resetGame()}
+          >
+            Reset Game
+          </motion.button>
+          <motion.button
+            initial={{ scale: 1, rotate: 0 }}
+            whileHover={{
+              scale: 1.05,
+              transition: {
+                duration: 0.1,
+              },
+            }}
+            whileTap={{
+              scale: 0.95,
+              transition: {
+                duration: 0.2,
+              },
+            }}
+            className="py-2 px-4 bg-card hover:bg-foreground/20 rounded-md"
+            onClick={() => setIsShowAnswer(true)}
+          >
+            Show Answer
+          </motion.button>
+        </div>
       </div>
     </div>
   )

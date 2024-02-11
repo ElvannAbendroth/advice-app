@@ -1,4 +1,3 @@
-import type { Cell } from '@/lib/types'
 import { AnimatePresence } from 'framer-motion'
 
 interface KeyboardProps {

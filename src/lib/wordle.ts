@@ -1,3 +1,4 @@
+import { ROWS } from './config'
 import { memoize } from './utils'
 
 export type Highlight = 'green' | 'yellow' | 'gray' | null
@@ -42,3 +43,24 @@ const getRowCellTypeNoMemo = (guess: string, correctAnswer: string): Highlight[]
 }
 
 export const getRowCellType = memoize(getRowCellTypeNoMemo)
+
+export const checkIfWordExists = async (word: string) => {
+  try {
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    const data = await response.json()
+    if (data.length > 0) return data
+  } catch (error) {
+    return false
+  }
+}
+
+export const getNewWord = async () => {
+  const response = await fetch(`https://random-word-api.herokuapp.com/word?number=1&length=${ROWS}`)
+  const words = await response.json()
+
+  const wordExists = await checkIfWordExists(words[0])
+
+  if (!wordExists) await getNewWord()
+
+  return words[0]
+}

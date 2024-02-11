@@ -4,6 +4,7 @@ import Icon from '@/components/ui/Icon'
 import { cn, memoize } from '@/lib/utils'
 import type { GridCell } from '@/lib/types'
 import { getRowCellType, type Highlight } from '@/lib/wordle'
+import { ROWS } from '@/lib/config'
 
 interface WordleGridProps {
   grid: GridCell[][]
@@ -15,7 +16,7 @@ interface WordleGridProps {
 // const memoizedCompare = memoize(compare)
 
 export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word, colPointer }) => {
-  console.table(grid)
+  // console.table(grid)
 
   return (
     <AnimatePresence>
@@ -26,7 +27,7 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word, 
         className="grid grid-cols-5 gap-2 select-none justify-center max-w-72 sm:max-w-96 mx-auto w-full"
       >
         {grid.map((row, rowIndex) => {
-          const shouldBeHighlighted = rowIndex < rowPointer
+          const shouldBeHighlighted = rowIndex < rowPointer || rowPointer === ROWS
           const highlights: Highlight[] = shouldBeHighlighted
             ? getRowCellType(grid[rowIndex].join(''), word)
             : Array(word.length).fill(null)
