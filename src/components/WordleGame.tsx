@@ -102,7 +102,7 @@ const WordleGame = () => {
 
   return (
     <div className=" flex flex-col items-center gap-2">
-      <WordleGrid grid={grid} rowPointer={rowPointer} word={word} />
+      <WordleGrid grid={grid} rowPointer={rowPointer} word={word} colPointer={colPointer} />
       <Keyboard onKeyPress={key => onKeyPress(key)} attemptedLetters={attemptedLetters} layout={layout} />
       <div className="flex flex-col gap-4 items-center">
         {win === 'WON' && <p className="text-lg font-semibold">You Won!!!</p>}

@@ -18,3 +18,21 @@ export function isCharacterRepeated(word: string, character: string): boolean {
   const count = word.split(character).length - 1
   return count > 1
 }
+
+type MemoizedFunction<T> = (...args: any[]) => T
+export function memoize<T>(func: (...args: any[]) => T): MemoizedFunction<T> {
+  const cache: Record<string, T> = {}
+
+  return (...args: any[]): T => {
+    const key = JSON.stringify(args)
+
+    if (cache[key]) {
+      return cache[key]
+    }
+
+    const result = func(...args)
+    cache[key] = result
+
+    return result
+  }
+}

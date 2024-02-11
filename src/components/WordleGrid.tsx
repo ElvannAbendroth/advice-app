@@ -1,16 +1,20 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Fragment } from 'react'
 import Icon from '@/components/ui/Icon'
-import { cn } from '@/lib/utils'
+import { cn, memoize } from '@/lib/utils'
 import type { GridCell } from '@/lib/types'
+import { getRowCellType, type Highlight } from '@/lib/wordle'
 
 interface WordleGridProps {
   grid: GridCell[][]
   rowPointer: number
+  colPointer: number
   word: string
 }
 
-export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }) => {
+// const memoizedCompare = memoize(compare)
+
+export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word, colPointer }) => {
   console.table(grid)
 
   return (
@@ -21,44 +25,40 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
         exit={{ opacity: 0 }}
         className="grid grid-cols-5 gap-2 select-none justify-center max-w-72 sm:max-w-96 mx-auto w-full"
       >
-        {grid.map((row, rowIndex) => (
-          <Fragment key={rowIndex}>
-            {row.map((letter, colIndex) => {
-              //console.log(row)
-              const isPreviousRow = rowIndex < rowPointer
-              const isCurrentRow = rowIndex === rowPointer
-              const isLetterInWord = isPreviousRow && typeof letter === 'string' && word.includes(letter)
-              const isLetterAtSameIndexAsLetter =
-                isPreviousRow && typeof letter === 'string' && word.charAt(colIndex) === letter
-              const isLetterInWordTwice =
-                typeof letter === 'string' && word.toLowerCase().split(letter.toLowerCase()).length - 1 > 1
-              // const isLetterInWordTwiceButWrongIndex = isLetterInWordTwice && word.charAt(colIndex) != letter
+        {grid.map((row, rowIndex) => {
+          const shouldBeHighlighted = rowIndex < rowPointer
+          const highlights: Highlight[] = shouldBeHighlighted
+            ? getRowCellType(grid[rowIndex].join(''), word)
+            : Array(word.length).fill(null)
+          const isCurrentRow = rowIndex === rowPointer
 
-              return (
-                <div
-                  id={`letter-cell-${rowIndex + 1}-${colIndex + 1}`}
-                  key={colIndex}
-                  className={cn(
-                    'relative flex items-center justify-center rounded-md p-1 sm:p-2 font-play border-2 border-card aspect-square text-2xl font-bold',
-                    isPreviousRow && 'bg-card text-foreground',
-                    isPreviousRow && isLetterInWord && isLetterAtSameIndexAsLetter && 'bg-primary text-background',
-                    isPreviousRow && isLetterInWord && !isLetterAtSameIndexAsLetter && 'bg-accent text-background'
-                    // isPreviousRow && isLetterInWord && isLetterInWordTwiceButWrongIndex && 'bg-accent text-background',
-                    // isCurrentRow && 'border-foreground/30'
-                  )}
-                >
-                  {isCurrentRow && colIndex === 0 ? (
-                    <Icon
-                      name="ChevronRight"
-                      className="absolute -left-6 sm:-left-12 text-foreground/50 animate-pulse"
-                    />
-                  ) : null}
-                  {letter}
-                </div>
-              )
-            })}
-          </Fragment>
-        ))}
+          return (
+            <Fragment key={rowIndex}>
+              {row.map((letter, colIndex) => {
+                return (
+                  <div
+                    id={`letter-cell-${rowIndex + 1}-${colIndex + 1}`}
+                    key={colIndex}
+                    className={cn(
+                      'relative flex items-center justify-center rounded-md p-1 sm:p-2 font-play border-2 border-card aspect-square text-2xl font-bold',
+                      shouldBeHighlighted && 'bg-card text-foreground',
+                      shouldBeHighlighted && highlights[colIndex] === 'green' && 'bg-primary text-background',
+                      shouldBeHighlighted && highlights[colIndex] === 'yellow' && 'bg-accent text-background'
+                    )}
+                  >
+                    {isCurrentRow && colIndex === 0 ? (
+                      <Icon
+                        name="ChevronRight"
+                        className="absolute -left-6 sm:-left-12 text-foreground/50 animate-pulse"
+                      />
+                    ) : null}
+                    {letter}
+                  </div>
+                )
+              })}
+            </Fragment>
+          )
+        })}
       </motion.div>
     </AnimatePresence>
   )
