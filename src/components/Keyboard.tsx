@@ -4,22 +4,16 @@ import { AnimatePresence } from 'framer-motion'
 interface KeyboardProps {
   onKeyPress: (key: string) => void
   attemptedLetters: string[]
+  layout: string[][]
 }
 
-export const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, attemptedLetters }) => {
-  const rows = [
-    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
-    ['Back', 'Enter'],
-  ]
-
+export const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, attemptedLetters, layout }) => {
   return (
     <AnimatePresence>
-      <div className="flex flex-col gap-1 sm:gap-2 p-4 rounded-md mx-auto select-none">
-        {rows.map(row => (
-          <div key={row[1]} className="flex justify-center gap-1">
-            {row.map(key => (
+      <div className="flex flex-col gap-1 sm:gap-2 px-4 py-2 sm:py-4  rounded-md mx-auto select-none">
+        {layout.map(key => (
+          <div key={key[1]} className="flex justify-center gap-1">
+            {key.map(key => (
               <button
                 id="keyboard-key"
                 key={key}

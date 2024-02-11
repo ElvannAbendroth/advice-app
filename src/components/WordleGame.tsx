@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { Keyboard } from './Keyboard'
 import { WordleGrid } from './WordleGrid'
@@ -15,10 +16,18 @@ const WordleGame = () => {
   const [colPointer, setColPointer] = useState<number>(0)
   const [rowPointer, setRowPointer] = useState<number>(0)
   const [attemptedLetters, setAttemptedLetters] = useState<string[]>([])
-  const [word, setWord] = useState('GUAVA')
+  const [word, setWord] = useState(RANDOM_WORD)
+  const [win, setWin] = useState<'WON' | 'LOST' | null>(null)
   // console.log('Word of the day:', word)
+  const layout = [
+    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+    ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+    ['Back', 'Enter'],
+  ]
 
   const handleEnter = () => {
+    checkIfGuessCorrect()
     //makes sure the pointers stay withing the grid
     if (rowPointer === ROWS || colPointer === COLUMNS + 1) return
     setRowPointer(rowPointer + (colPointer === COLUMNS ? 1 : 0))
@@ -26,8 +35,6 @@ const WordleGame = () => {
 
     const newAttemptedLetters = [...new Set(grid[rowPointer])] as string[]
     setAttemptedLetters(newAttemptedLetters)
-
-    //check if answer is correct here
   }
 
   const handleBack = () => {
@@ -54,6 +61,7 @@ const WordleGame = () => {
   }
 
   const onKeyPress = (key: string) => {
+    console.log(key)
     switch (key) {
       case 'Enter':
         handleEnter()
@@ -63,16 +71,62 @@ const WordleGame = () => {
         handleBack()
         break
 
+      case 'Backspace':
+        handleBack()
+        break
+
       default:
+        if (win) return
         handleDefaultKeyPress(key)
         break
     }
   }
 
+  const checkIfGuessCorrect = () => {
+    const newGuessedWord = grid[rowPointer].join('')
+
+    if (newGuessedWord === word) {
+      setWin('WON')
+    } else if (rowPointer === ROWS - 1) {
+      setWin('LOST')
+    }
+  }
+
+  const resetGame = () => {
+    setWin(null)
+    setGrid(initialGridData)
+    setColPointer(0)
+    setRowPointer(0)
+    setWord(RANDOM_WORD)
+  }
+
   return (
-    <div className=" w-full">
+    <div className=" flex flex-col items-center gap-2">
       <WordleGrid grid={grid} rowPointer={rowPointer} word={word} />
-      <Keyboard onKeyPress={key => onKeyPress(key)} attemptedLetters={attemptedLetters} />
+      <Keyboard onKeyPress={key => onKeyPress(key)} attemptedLetters={attemptedLetters} layout={layout} />
+      <div className="flex flex-col gap-4 items-center">
+        {win === 'WON' && <p className="text-lg font-semibold">You Won!!!</p>}
+        {win === 'LOST' && <p className="text-lg font-semibold">You lost, the word was {word}</p>}
+        <motion.button
+          initial={{ scale: 1, rotate: 0 }}
+          whileHover={{
+            scale: 1.05,
+            transition: {
+              duration: 0.1,
+            },
+          }}
+          whileTap={{
+            scale: 0.95,
+            transition: {
+              duration: 0.2,
+            },
+          }}
+          className="py-2 px-4 bg-card hover:bg-foreground/20 rounded-md"
+          onClick={() => resetGame()}
+        >
+          Reset Game
+        </motion.button>
+      </div>
     </div>
   )
 }

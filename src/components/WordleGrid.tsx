@@ -11,17 +11,20 @@ interface WordleGridProps {
 }
 
 export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }) => {
+  console.table(grid)
+
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="grid grid-cols-5 gap-2 select-none justify-center max-w-72 sm:max-w-96 mx-auto"
+        className="grid grid-cols-5 gap-2 select-none justify-center max-w-72 sm:max-w-96 mx-auto w-full"
       >
         {grid.map((row, rowIndex) => (
           <Fragment key={rowIndex}>
             {row.map((letter, colIndex) => {
+              //console.log(row)
               const isPreviousRow = rowIndex < rowPointer
               const isCurrentRow = rowIndex === rowPointer
               const isLetterInWord = isPreviousRow && typeof letter === 'string' && word.includes(letter)
@@ -29,9 +32,7 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
                 isPreviousRow && typeof letter === 'string' && word.charAt(colIndex) === letter
               const isLetterInWordTwice =
                 typeof letter === 'string' && word.toLowerCase().split(letter.toLowerCase()).length - 1 > 1
-              const isLetterInWordTwiceButWrongIndex = isLetterInWordTwice && word.charAt(colIndex) != letter
-
-              // if (letter) console.log(letter, isLetterInWordTwice)
+              // const isLetterInWordTwiceButWrongIndex = isLetterInWordTwice && word.charAt(colIndex) != letter
 
               return (
                 <div
@@ -39,10 +40,11 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
                   key={colIndex}
                   className={cn(
                     'relative flex items-center justify-center rounded-md p-1 sm:p-2 font-play border-2 border-card aspect-square text-2xl font-bold',
+                    isPreviousRow && 'bg-card text-foreground',
                     isPreviousRow && isLetterInWord && isLetterAtSameIndexAsLetter && 'bg-primary text-background',
-                    isPreviousRow && isLetterInWord && !isLetterAtSameIndexAsLetter && 'bg-secondary text-background',
-                    isPreviousRow && isLetterInWord && isLetterInWordTwiceButWrongIndex && 'bg-accent text-background',
-                    isCurrentRow && 'border-foreground/30'
+                    isPreviousRow && isLetterInWord && !isLetterAtSameIndexAsLetter && 'bg-accent text-background'
+                    // isPreviousRow && isLetterInWord && isLetterInWordTwiceButWrongIndex && 'bg-accent text-background',
+                    // isCurrentRow && 'border-foreground/30'
                   )}
                 >
                   {isCurrentRow && colIndex === 0 ? (
