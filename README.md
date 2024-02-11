@@ -2,7 +2,7 @@
 
 A collection of micro-apps with the purpose of learning Astro & testing front-end interactions, featuring a simple advice-giving app using an external API to test Astro.
 
-Live site: https://astro-advice-app.netlify.app/
+Live site: https://oodri-playground.netlify.app/
 
 Project prompt: https://www.frontendmentor.io/challenges/advice-generator-app-QdUG-13db
 
