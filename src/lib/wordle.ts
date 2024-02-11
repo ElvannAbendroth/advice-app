@@ -1,4 +1,4 @@
-import { ROWS } from './config'
+import { COLUMNS, ROWS } from './config'
 import { memoize } from './utils'
 
 export type Highlight = 'green' | 'yellow' | 'gray' | null
@@ -55,7 +55,7 @@ export const checkIfWordExists = async (word: string) => {
 }
 
 export const getNewWord = async () => {
-  const response = await fetch(`https://random-word-api.herokuapp.com/word?number=1&length=${ROWS}`)
+  const response = await fetch(`https://random-word-api.herokuapp.com/word?number=1&length=${COLUMNS}`)
   const words = await response.json()
 
   const wordExists = await checkIfWordExists(words[0])
