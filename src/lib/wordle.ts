@@ -62,5 +62,5 @@ export const getNewWord = async () => {
 
   if (!wordExists) await getNewWord()
 
-  return words[0].capitalize()
+  return words[0].toUpperCase()
 }
