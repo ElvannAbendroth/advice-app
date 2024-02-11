@@ -1,6 +1,6 @@
-# Random Advice App
+# Playground
 
-A collection of micro-apps with the purpose of learning Astro & testing front-end interactions, featuring a simple advice-giving app using an external API to test Astro.
+A collection of micro-apps with the purpose of learning Astro & testing front-end interactions, featuring a simple advice-giving app, tic tac toe, & wordle using an external API to test Astro.
 
 Live site: https://oodri-playground.netlify.app/
 
