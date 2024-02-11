@@ -8,13 +8,13 @@ import { ROWS } from '@/lib/config'
 
 interface WordleGridProps {
   grid: GridCell[][]
-  rowPointer: number
+  pointer: { col: number; row: number }
   word: string
 }
 
 // const memoizedCompare = memoize(compare)
 
-export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }) => {
+export const WordleGrid: React.FC<WordleGridProps> = ({ grid, word, pointer }) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -24,11 +24,11 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
         className="grid grid-cols-5 gap-2 select-none justify-center max-w-72 sm:max-w-96 mx-auto w-full"
       >
         {grid.map((row, rowIndex) => {
-          const shouldBeHighlighted = rowIndex < rowPointer || rowPointer === ROWS
+          const shouldBeHighlighted = rowIndex < pointer.row || pointer.row === ROWS
           const highlights: Highlight[] = shouldBeHighlighted
             ? getRowCellType(grid[rowIndex].join(''), word)
             : Array(word.length).fill(null)
-          const isCurrentRow = rowIndex === rowPointer
+          const isCurrentRow = rowIndex === pointer.row
 
           return (
             <Fragment key={rowIndex}>

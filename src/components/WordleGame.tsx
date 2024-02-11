@@ -13,9 +13,7 @@ const WordleGame: React.FC<WordleGameProps> = ({ word }) => {
   const initialGridData: any = Array.from({ length: ROWS }, () => Array.from({ length: COLUMNS }, () => null))
 
   const [grid, setGrid] = useState(initialGridData)
-  const [pointer, setPointer] = useState({ column: 0, row: 0 })
-  const [colPointer, setColPointer] = useState<number>(0)
-  const [rowPointer, setRowPointer] = useState<number>(0)
+  const [pointer, setPointer] = useState({ col: 0, row: 0 })
   const [attemptedLetters, setAttemptedLetters] = useState<string[]>([])
   const [correctAnswer, setCorrectAnswer] = useState(word.toUpperCase())
   const [gameStatus, setGameStatus] = useState<'WON' | 'LOST' | null>(null)
@@ -29,43 +27,47 @@ const WordleGame: React.FC<WordleGameProps> = ({ word }) => {
   ]
 
   const handleEnter = async () => {
-    //makes sure the pointers stay withing the grid
-    if (rowPointer === ROWS + 1 || colPointer === COLUMNS + 1) return
+    // Makes sure the pointers stay within the grid
+    if (pointer.row === ROWS + 1 || pointer.col === COLUMNS + 1) return
 
-    const isWord = await checkIfWordExists(grid[rowPointer].join(''))
+    const isWord = await checkIfWordExists(grid[pointer.row].join(''))
     if (!isWord) return
+
+    // Check if the guess is correct
     checkIfGuessCorrect()
 
-    //set pointer to next row
-    if (rowPointer < COLUMNS + 1) setRowPointer(rowPointer + 1)
-    // setRowPointer(rowPointer + (colPointer === COLUMNS ? 1 : 0))
-    setColPointer(colPointer === COLUMNS ? 0 : colPointer)
+    // Set pointer to next row and reset column pointer
+    if (pointer.col === COLUMNS) {
+      setPointer({ row: pointer.row + 1, col: 0 })
+    } else {
+      setPointer({ ...pointer, col: pointer.col + 1 })
+    }
 
-    const newAttemptedLetters = [...new Set(grid[rowPointer])] as string[]
+    // Update attempted letters for the current row
+    const newAttemptedLetters = [...new Set(grid[pointer.row])] as string[]
     setAttemptedLetters(newAttemptedLetters)
   }
-
   const handleBack = () => {
     //makes sure the pointers stay withing the grid
-    if (colPointer === COLUMNS + 1) return
-    const newColPointer = colPointer > 0 ? colPointer - 1 : 0
+    if (pointer.col === COLUMNS + 1) return
+    const newColPointer = pointer.col > 0 ? pointer.col - 1 : 0
 
-    setColPointer(newColPointer)
+    setPointer({ ...pointer, col: newColPointer })
 
     const updatedGrid = [...grid]
-    updatedGrid[rowPointer][newColPointer] = null
+    updatedGrid[pointer.row][newColPointer] = null
     setGrid(updatedGrid)
   }
 
   const handleDefaultKeyPress = (key: string) => {
     //makes sure the pointers stay withing the grid
-    if (colPointer === COLUMNS || key === ' ') return
-    const oldColPointer = colPointer
-    const newColPointer = colPointer + 1
-    setColPointer(newColPointer)
+    if (pointer.col === COLUMNS || key === ' ') return
+    const oldColPointer = pointer.col
+    const newColPointer = pointer.col + 1
+    setPointer({ ...pointer, col: newColPointer })
 
     const updatedGrid = [...grid]
-    updatedGrid[rowPointer][oldColPointer] = key.toUpperCase()
+    updatedGrid[pointer.row][oldColPointer] = key.toUpperCase()
     setGrid(updatedGrid)
   }
 
@@ -91,11 +93,11 @@ const WordleGame: React.FC<WordleGameProps> = ({ word }) => {
   }
 
   const checkIfGuessCorrect = () => {
-    const newGuessedWord = grid[rowPointer].join('')
+    const newGuessedWord = grid[pointer.row].join('')
 
     if (newGuessedWord === correctAnswer) {
       setGameStatus('WON')
-    } else if (rowPointer === ROWS - 1) {
+    } else if (pointer.row === ROWS - 1) {
       setGameStatus('LOST')
     }
   }
@@ -106,13 +108,12 @@ const WordleGame: React.FC<WordleGameProps> = ({ word }) => {
     setCorrectAnswer(newWord)
     setGameStatus(null)
     setGrid(initialGridData)
-    setColPointer(0)
-    setRowPointer(0)
+    setPointer({ col: 0, row: 0 })
   }
 
   return (
     <div className=" flex flex-col items-center gap-2">
-      <WordleGrid grid={grid} rowPointer={rowPointer} word={correctAnswer} />
+      <WordleGrid grid={grid} pointer={pointer} word={correctAnswer} />
       <Keyboard onKeyPress={key => onKeyPress(key)} attemptedLetters={attemptedLetters} layout={layout} />
       <div className="flex flex-col gap-4 items-center">
         {gameStatus === 'WON' && <p className="text-lg font-semibold">You Won!!!</p>}
