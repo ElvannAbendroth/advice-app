@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Fragment } from 'react'
-import Icon from './ui/Icon'
+import Icon from '@/components/ui/Icon'
 import { cn } from '@/lib/utils'
 import type { GridCell } from '@/lib/types'
 
@@ -17,7 +17,7 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="grid grid-cols-5 gap-2 select-none justify-center max-w-96 mx-auto"
+        className="grid grid-cols-5 gap-2 select-none justify-center max-w-72 sm:max-w-96 mx-auto"
       >
         {grid.map((row, rowIndex) => (
           <Fragment key={rowIndex}>
@@ -31,10 +31,11 @@ export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }
                 typeof letter === 'string' && word.toLowerCase().split(letter.toLowerCase()).length - 1 > 1
               const isLetterInWordTwiceButWrongIndex = isLetterInWordTwice && word.charAt(colIndex) != letter
 
-              if (letter) console.log(letter, isLetterInWordTwice)
+              // if (letter) console.log(letter, isLetterInWordTwice)
 
               return (
                 <div
+                  id={`letter-cell-${rowIndex + 1}-${colIndex + 1}`}
                   key={colIndex}
                   className={cn(
                     'relative flex items-center justify-center rounded-md p-1 sm:p-2 font-play border-2 border-card aspect-square text-2xl font-bold',

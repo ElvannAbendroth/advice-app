@@ -97,12 +97,14 @@ export const AdviceCard: React.FC<AdviceCardProps> = ({ entry }) => {
               initial={{ scale: 1, rotate: 0 }}
               whileHover={{
                 scale: 1.1,
+
                 transition: {
                   duration: 0.1,
                 },
               }}
               whileTap={{
                 scale: 0.9,
+                rotate: '-15deg',
                 transition: {
                   duration: 0.2,
                 },
@@ -110,11 +112,7 @@ export const AdviceCard: React.FC<AdviceCardProps> = ({ entry }) => {
               onClick={handleRandomize}
               className="bg-primary text-background rounded-full p-2 hover:bg-primary-hover transition-all flex justify-center items-center "
             >
-              {isLoading ? (
-                <Icon className="h-8 w-8 animate-spin duration-1000 " name="Dice5" size="48" />
-              ) : (
-                <Icon className="h-6 w-6" name="Dice5" size="48" />
-              )}
+              <Icon className={`h-8 w-8 p-1 ${isLoading && 'animate-spin duration-1000'}`} name="Dice5" size="48" />
             </motion.button>
           </div>
         </Card>

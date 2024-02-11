@@ -7,7 +7,6 @@ const COLUMNS = 5
 const ROWS = 6
 const FIVE_LETTER_WORDS = ['mango', 'apple', 'grape', 'lemon', 'peach', 'olive', 'guava', 'melon', 'papaya']
 const RANDOM_WORD = getRandomItem(FIVE_LETTER_WORDS).toUpperCase()
-console.log(RANDOM_WORD)
 
 const WordleGame = () => {
   const initialGridData: any = Array.from({ length: ROWS }, () => Array.from({ length: COLUMNS }, () => null))
@@ -17,7 +16,7 @@ const WordleGame = () => {
   const [rowPointer, setRowPointer] = useState<number>(0)
   const [attemptedLetters, setAttemptedLetters] = useState<string[]>([])
   const [word, setWord] = useState('GUAVA')
-  console.log(word)
+  // console.log('Word of the day:', word)
 
   const handleEnter = () => {
     //makes sure the pointers stay withing the grid

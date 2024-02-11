@@ -4,7 +4,7 @@ import { ViewTransitions } from 'astro:transitions'
 const { title = 'Default site name', description } = Astro.props
 ---
 
-<html lang="en" class="h-full w-full">
+<html lang="en" class="w-full">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -17,12 +17,12 @@ const { title = 'Default site name', description } = Astro.props
     <ViewTransitions />
   </head>
   <body
-    class="bg-background text-foreground flex flex-col min-h-[100vh] w-full selection:bg-primary selection:text-background"
+    class="bg-background text-foreground flex flex-col min-h-[100vh] selection:bg-primary selection:text-background"
   >
-    <Navbar />
-    <main class="flex flex-col items-center min-h-full flex-grow p-4 justify-center">
+    <Navbar client:load />
+    <main class="flex flex-col items-center min-h-full flex-grow p-4 pt-10">
       <slot />
     </main>
-    <footer>hey there</footer>
+    <!-- <footer>hey there footer</footer> -->
   </body>
 </html>
