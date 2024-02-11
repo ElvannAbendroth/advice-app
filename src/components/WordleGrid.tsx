@@ -9,15 +9,12 @@ import { ROWS } from '@/lib/config'
 interface WordleGridProps {
   grid: GridCell[][]
   rowPointer: number
-  colPointer: number
   word: string
 }
 
 // const memoizedCompare = memoize(compare)
 
-export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word, colPointer }) => {
-  // console.table(grid)
-
+export const WordleGrid: React.FC<WordleGridProps> = ({ grid, rowPointer, word }) => {
   return (
     <AnimatePresence>
       <motion.div

@@ -1,14 +1,8 @@
 import Icon from '@/components/ui/Icon'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover'
+import { navItems } from '@/lib/config'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import { AnimatePresence, motion } from 'framer-motion'
-
-const navItems = [
-  { label: 'home', href: '/' },
-  { label: 'advice', href: '/advice' },
-  { label: 'Tic Tac Toe', href: '/tictactoe' },
-  { label: 'Wordle', href: '/wordle' },
-]
 
 export const Navbar: React.FC<{}> = () => {
   //TODO: change nav item styling based on path

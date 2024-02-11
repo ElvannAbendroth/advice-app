@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Keyboard } from './Keyboard'
 import { WordleGrid } from './WordleGrid'
@@ -6,18 +6,19 @@ import { COLUMNS, ROWS } from '@/lib/config'
 import { checkIfWordExists, getNewWord } from '@/lib/wordle'
 
 interface WordleGameProps {
-  wordFromAPI: string
+  word: string
 }
 
-const WordleGame: React.FC<WordleGameProps> = ({ wordFromAPI }) => {
+const WordleGame: React.FC<WordleGameProps> = ({ word }) => {
   const initialGridData: any = Array.from({ length: ROWS }, () => Array.from({ length: COLUMNS }, () => null))
 
   const [grid, setGrid] = useState(initialGridData)
+  const [pointer, setPointer] = useState({ column: 0, row: 0 })
   const [colPointer, setColPointer] = useState<number>(0)
-  const [rowPointer, setRowPointer] = useState<number>(5)
+  const [rowPointer, setRowPointer] = useState<number>(0)
   const [attemptedLetters, setAttemptedLetters] = useState<string[]>([])
-  const [word, setWord] = useState(wordFromAPI.toUpperCase())
-  const [win, setWin] = useState<'WON' | 'LOST' | null>(null)
+  const [correctAnswer, setCorrectAnswer] = useState(word.toUpperCase())
+  const [gameStatus, setGameStatus] = useState<'WON' | 'LOST' | null>(null)
   const [isShowAnswer, setIsShowAnswer] = useState(false)
 
   const layout = [
@@ -83,7 +84,7 @@ const WordleGame: React.FC<WordleGameProps> = ({ wordFromAPI }) => {
         break
 
       default:
-        if (win) return
+        if (gameStatus) return
         handleDefaultKeyPress(key)
         break
     }
@@ -92,18 +93,18 @@ const WordleGame: React.FC<WordleGameProps> = ({ wordFromAPI }) => {
   const checkIfGuessCorrect = () => {
     const newGuessedWord = grid[rowPointer].join('')
 
-    if (newGuessedWord === word) {
-      setWin('WON')
+    if (newGuessedWord === correctAnswer) {
+      setGameStatus('WON')
     } else if (rowPointer === ROWS - 1) {
-      setWin('LOST')
+      setGameStatus('LOST')
     }
   }
 
   const resetGame = async () => {
     const newWord = await getNewWord()
     setIsShowAnswer(false)
-    setWord(newWord)
-    setWin(null)
+    setCorrectAnswer(newWord)
+    setGameStatus(null)
     setGrid(initialGridData)
     setColPointer(0)
     setRowPointer(0)
@@ -111,12 +112,12 @@ const WordleGame: React.FC<WordleGameProps> = ({ wordFromAPI }) => {
 
   return (
     <div className=" flex flex-col items-center gap-2">
-      <WordleGrid grid={grid} rowPointer={rowPointer} word={word} colPointer={colPointer} />
+      <WordleGrid grid={grid} rowPointer={rowPointer} word={correctAnswer} />
       <Keyboard onKeyPress={key => onKeyPress(key)} attemptedLetters={attemptedLetters} layout={layout} />
       <div className="flex flex-col gap-4 items-center">
-        {win === 'WON' && <p className="text-lg font-semibold">You Won!!!</p>}
-        {win === 'LOST' && <p className="text-lg font-semibold">You lost, the word was {word}</p>}
-        {isShowAnswer && <p className="text-lg font-semibold">Answer: {word}</p>}
+        {gameStatus === 'WON' && <p className="text-lg font-semibold">You Won!!!</p>}
+        {gameStatus === 'LOST' && <p className="text-lg font-semibold">You lost, the word was {correctAnswer}</p>}
+        {isShowAnswer && <p className="text-lg font-semibold">Answer: {correctAnswer}</p>}
         <div className="flex gap-2">
           <motion.button
             initial={{ scale: 1, rotate: 0 }}
