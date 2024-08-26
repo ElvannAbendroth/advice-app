@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import WordleGame from '@/components/WordleGame'
-import { COLUMNS } from '@/lib/config'
 import { getNewWord } from '@/lib/wordle'
 
 const word = await getNewWord()

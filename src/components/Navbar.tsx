@@ -3,6 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover
 import { navItems } from '@/lib/config'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import { AnimatePresence, motion } from 'framer-motion'
+import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/astro/react'
 
 export const Navbar: React.FC<{}> = () => {
   //TODO: change nav item styling based on path
@@ -18,7 +19,7 @@ export const Navbar: React.FC<{}> = () => {
           <a
             id="logo"
             href="/"
-            className="flex gap-2 items-center text-gradient-to-r hover:text-primary cursor-pointer"
+            className="flex gap-2 items-center text-gradient-to-r hover:text-primary cursor-pointer transition-all duration-500"
           >
             <Icon className="h-7 w-7" name="Gamepad" size="48" />
             <p className="text-xl font-bold ">Playful</p>
@@ -39,7 +40,7 @@ export const Navbar: React.FC<{}> = () => {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="uppercase font-medium text-lg tracking-[0.2em] hover:text-background hover:bg-gradient-to-r hover:from-primary hover:to-secondary rounded-full w-full text-center transition-all p-2 "
+                    className="uppercase font-medium text-lg tracking-[0.2em] hover:text-background hover:bg-gradient-to-r hover:from-primary hover:to-secondary rounded-full w-full text-center transition-all duration-500 p-2 "
                   >
                     {item.label}
                   </a>
@@ -57,6 +58,12 @@ export const Navbar: React.FC<{}> = () => {
                 {item.label}
               </a>
             ))}
+            <SignedOut>
+              <SignInButton mode="modal" />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
       </div>
