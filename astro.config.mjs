@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config'
 import tailwind from '@astrojs/tailwind'
-import netlify from '@astrojs/netlify'
 import vercel from '@astrojs/vercel/serverless'
 import clerk from '@clerk/astro'
 import { shadesOfPurple } from '@clerk/themes'
@@ -20,6 +19,6 @@ export default defineConfig({
     }),
   ],
   output: 'server',
-  adapter: netlify(),
+
   adapter: vercel(),
 })
