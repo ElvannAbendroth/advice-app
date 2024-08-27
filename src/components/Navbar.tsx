@@ -26,7 +26,6 @@ export const Navbar: React.FC<{}> = () => {
         >
           <a
             id="logo"
-            data-astro-reload
             href="/"
             className="flex gap-2 items-center text-gradient-to-r hover:text-primary cursor-pointer transition-all duration-500"
           >
