@@ -7,5 +7,7 @@ const { slip } = await response.json()
 ---
 
 <BaseLayout title="Playful" description={`Advice #${slip.id}`}>
-  <AdviceCard client:load entry={slip} />
+  <div class="h-[70vh] flex flex-col justify-center items-center">
+    <AdviceCard client:load entry={slip} />
+  </div>
 </BaseLayout>

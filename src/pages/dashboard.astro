@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import UserSessionInfo from '@/components/UserSessionInfo'
+
+if (!Astro.locals.auth().userId) {
+  return Astro.redirect('/')
+}
+
+const user = await Astro.locals.currentUser()
+---
+
+<BaseLayout title="Dashboard" description="Welcome to your Dashboard!">
+  <div class="w-full h-full flex flex-col py-4 px-6 max-w-7xl mx-auto gap-8">
+    <div class="flex flex-col gap-3">
+      <h1 class="typo-h3">Dashboard</h1>
+      <p>Welcome to your dashboard {JSON.stringify(user?.fullName).slice(1, -1)}!</p>
+      <hr class="shadow-lg border-card/50 my-4" />
+    </div>
+
+    <div>
+      <UserSessionInfo client:only="react" />
+    </div>
+  </div>
+</BaseLayout>
