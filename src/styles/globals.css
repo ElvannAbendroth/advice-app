@@ -2,6 +2,14 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Cute+Font&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap'); */
 
+.revert-tailwind {
+  all: initial;
+}
+
+.revert-tailwind > * {
+  all: revert;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

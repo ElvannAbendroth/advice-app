@@ -33,7 +33,14 @@ export const Navbar: React.FC<{}> = () => {
             <Icon className="h-7 w-7" name="Gamepad" size="48" />
             <p className="text-xl font-bold ">Playful</p>
           </a>
-          <motion.div id="mobile-nav" className="visible md:hidden flex gap-2">
+          <motion.div id="mobile-nav" className="visible md:hidden flex gap">
+            <SignedOut>
+              <SignInButton mode="modal" />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+
             <Popover>
               <PopoverTrigger>
                 <Icon className="h-7 w-7 cursor-pointer" name="Menu" size="48" />
@@ -66,19 +73,13 @@ export const Navbar: React.FC<{}> = () => {
                 </SignedIn>
               </PopoverContent>
             </Popover>
-            <SignedOut>
-              <SignInButton mode="modal" />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
           </motion.div>
           <div id="desktop-nav" className=" hidden md:flex flex-row gap-4 justify-center items-center">
             {navItems.map(item => (
               <a
                 key={item.label}
-                href={item.href}
                 data-astro-reload
+                href={item.href}
                 className="uppercase font-medium text-xs tracking-[0.2em] hover:text-primary transition-all hover:underline underline-offset-4 decoration-2"
               >
                 {item.label}
