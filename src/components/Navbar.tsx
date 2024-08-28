@@ -26,7 +26,6 @@ export const Navbar: React.FC<{}> = () => {
         >
           <a
             id="logo"
-            data-astro-reload
             href="/"
             className="flex gap-2 items-center text-gradient-to-r hover:text-primary cursor-pointer transition-all duration-500"
           >
@@ -54,7 +53,6 @@ export const Navbar: React.FC<{}> = () => {
                 </PopoverPrimitive.Close>
                 {navItems.map(item => (
                   <a
-                    data-astro-reload
                     key={item.label}
                     href={item.href}
                     className="uppercase font-medium text-lg tracking-[0.2em] hover:text-background hover:bg-gradient-to-r hover:from-primary hover:to-secondary rounded-full w-full text-center transition-all duration-500 p-2 "
@@ -65,7 +63,6 @@ export const Navbar: React.FC<{}> = () => {
                 <SignedIn>
                   <a
                     href={'/dashboard'}
-                    data-astro-reload
                     className="uppercase font-medium text-lg tracking-[0.2em] hover:text-background hover:bg-gradient-to-r hover:from-primary hover:to-secondary rounded-full w-full text-center transition-all duration-500 p-2 "
                   >
                     Dashboard
@@ -78,7 +75,6 @@ export const Navbar: React.FC<{}> = () => {
             {navItems.map(item => (
               <a
                 key={item.label}
-                data-astro-reload
                 href={item.href}
                 className="uppercase font-medium text-xs tracking-[0.2em] hover:text-primary transition-all hover:underline underline-offset-4 decoration-2"
               >
@@ -88,7 +84,6 @@ export const Navbar: React.FC<{}> = () => {
             <SignedIn>
               <a
                 href={'/dashboard'}
-                data-astro-reload
                 className="uppercase font-medium text-xs tracking-[0.2em] hover:text-primary transition-all hover:underline underline-offset-4 decoration-2"
               >
                 Dashboard
